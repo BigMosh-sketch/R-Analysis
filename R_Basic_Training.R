@@ -826,3 +826,104 @@ sample_frac(salesreport,0.4)# give 40% of the data(randomly)
 View(flights)
 head(flights)
 arrange(flights,month,dep_delay)
+arrange(flights,desc(month))
+order(flights$month)
+
+
+
+arrange(sample_n(filter(flights,month==11),size = 10),desc(dep_time))
+(flights %>% filter(month==11) %>% sample_n(size = 10) %>% arrange(desc(dep_time)))
+
+# ----------------------------Tidyr in R ----------------------------------
+
+#Tidyr for Data Manipulation
+n=10
+
+wide <- data.frame(
+  ID = c(1:n),
+  Face.1 = c(411,723,325,456,579,612,709,513,527,379),
+  Face.2 = c(123,300,400,500,600,654,789,906,413,567),
+  Face.3 = c(1457,1000,569,896,956,2345,780,599,1023,678)
+)
+wide
+ 
+slice(wide,1:5)
+wide[1:5,]
+View(wide)
+
+
+
+# --------------Gather Fuction in R ---------------------------------------
+# gather()Reshaping data from wide format to Long format
+wide
+x <- gather(wide,Face,Responsetime,Face.1:Face.3)
+x
+# separate ()splits single column to multiple column
+View(separate(x,Face,c('Target','Number')))
+
+#Spread() Reshaping data from long format to wide format
+
+spread(x,Face,Responsetime) # opposite of gather function
+
+
+
+# --------------Reading & Writing data files ------------------------------
+
+# Reading text data
+credit_data <- read.table("C:\\Users\\USER\\Documents\\Epi training analysis\\R tutorial demo files\\R tutorial demo files\\Data files\\credit.txt")
+View(credit_data)
+# Assigning names to the column
+
+
+view(data.frame(
+  ID=credit_data[,1],
+  Name=paste(credit_data[,2],credit_data[,3]),
+  Type=credit_data[,4],
+  Transaction=credit_data[,5]
+))
+
+View(data.frame(
+  ID=credit_data[,1],
+  Name=paste(credit_data[,2],credit_data[,3]),
+  Type=credit_data[,4],
+  Transaction=credit_data[,5]
+))
+
+# reading csv data
+u <- read.csv("C:\\Users\\USER\\Documents\\Epi training analysis\\R tutorial demo files\\R tutorial demo files\\Data files\\Salaries.csv")
+View(u)
+str(u)
+summary
+
+# Reading Excel data (single sheet)
+ x2 <- read_excel("C:\\Users\\USER\\Documents\\Epi training analysis\\R tutorial demo files\\R tutorial demo files\\Data files\\pokemon.xlsx")
+View(x2) 
+
+
+# lapply Fuction R --------------------------------------------------------
+
+#Lappyl fuction used to import multiple excel sheets into list
+excel_sheets("C:\\Users\\USER\\Documents\\Epi training analysis\\R tutorial demo files\\R tutorial demo files\\Data files\\pokemon.xlsx")
+qw <- lapply(excel_sheets("C:\\Users\\USER\\Documents\\Epi training analysis\\R tutorial demo files\\R tutorial demo files\\Data files\\pokemon.xlsx"),
+       read_excel,
+       path="C:\\Users\\USER\\Documents\\Epi training analysis\\R tutorial demo files\\R tutorial demo files\\Data files\\pokemon.xlsx")
+View(qw)
+
+## write to excel
+df <- data.frame(matrix(1:50))
+
+write.xlsx(df, "C:\\Users\\USER\\Documents\\Epi training analysis\\R tutorial demo files\\R tutorial demo files\\Data files\\output.xlsx") 
+read_excel("C:\\Users\\avijeet\\Desktop\\R tutorial demo files\\Data files\\output.xlsx")
+
+# Reading a sas file
+install.packages('sas7bdat')
+library(sas7bdat)
+movies<-read.sas7bdat("C:\\Users\\USER\\Documents\\Epi training analysis\\R tutorial demo files\\R tutorial demo files\\Data files\\movies.sas7bdat")
+str(movies)
+View(movies) 
+
+# Plot pie chart for product and Unitsold
+
+pie(c(135,45,60,120),c("Table","Chair","Desk","Board"),main = "Class Room",col=rainbow(4))
+legend('topleft',c("Table","Chair","Desk","Board"),cex = 0.6,fill=rainbow(4))
+
